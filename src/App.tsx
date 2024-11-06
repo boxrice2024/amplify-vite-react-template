@@ -1,20 +1,24 @@
-// import { useState } from "react";
+import { useState } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom"; // Import useLocation
+// @ts-ignore
 import Topbar from "./scenes/global/Topbar";
+// @ts-ignore
 import Sidebar from "./scenes/global/Sidebar";
+// @ts-ignore
 import Dashboard from "./scenes/dashboard";
+// @ts-ignore
 import Team from "./scenes/team";
-import Bar from "./scenes/bar";
-import Line from "./scenes/line";
-import Pie from "./scenes/pie";
+// @ts-ignore
 import FAQ from "./scenes/faq";
 import { CssBaseline, ThemeProvider } from "@mui/material";
+// @ts-ignore
 import { ColorModeContext, useMode } from "./theme";
+// @ts-ignore
 import SignInPage from "./scenes/signin";  // Import the renamed SignIn component
 
-import { useEffect, useState } from "react";
-import type { Schema } from "../amplify/data/resource";
-import { generateClient } from "aws-amplify/data";
+// import { useEffect, useState } from "react";
+// import type { Schema } from "../amplify/data/resource";
+// import { generateClient } from "aws-amplify/data";
 
 function App() {
   const [theme, colorMode] = useMode();
