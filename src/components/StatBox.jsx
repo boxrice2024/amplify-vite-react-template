@@ -1,3 +1,4 @@
+// StatBox.jsx
 import React, { useState } from "react";
 import { Box, Typography, Dialog, DialogTitle, DialogContent, DialogActions, Button, useTheme } from "@mui/material";
 import { tokens } from "../theme";
@@ -7,22 +8,18 @@ const StatBox = ({ title, subtitle, icon, progress, increase, filledData, unfill
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [open, setOpen] = useState(false);
-  const [selectedData, setSelectedData] = useState(null); // Store data for the clicked color
+  const [selectedData, setSelectedData] = useState(null);
 
   // Open dialog and show the data for the clicked part of the progress circle
   const handleClickOpen = (part) => {
-    if (part === 'filled') {
-      setSelectedData(filledData);
-    } else {
-      setSelectedData(unfilledData);
-    }
+    setSelectedData(part === 'filled' ? filledData : unfilledData);
     setOpen(true);
   };
 
   // Close dialog
   const handleClose = () => {
     setOpen(false);
-    setSelectedData(null); // Reset the data when the dialog is closed
+    setSelectedData(null);
   };
 
   return (
@@ -40,8 +37,7 @@ const StatBox = ({ title, subtitle, icon, progress, increase, filledData, unfill
             </Typography>
           </Box>
           <Box>
-            {/* Attach click handler to ProgressCircle */}
-            <ProgressCircle progress={progress} onClick={handleClickOpen} />
+            <ProgressCircle progress={progress} subtitle={subtitle} onClick={handleClickOpen} />
           </Box>
         </Box>
         <Box display="flex" justifyContent="space-between" mt="2px">
@@ -58,7 +54,6 @@ const StatBox = ({ title, subtitle, icon, progress, increase, filledData, unfill
         </Box>
       </Box>
 
-      {/* Dialog to show data for the clicked part of the progress circle */}
       <Dialog open={open} onClose={handleClose} fullWidth>
         <DialogTitle>{selectedData ? selectedData.title : "No Data"}</DialogTitle>
         <DialogContent>

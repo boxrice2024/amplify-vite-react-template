@@ -113,8 +113,8 @@ const Dashboard = () => {
         >
           <StatBox
             title="17"
-            subtitle="New Detections "
-            progress="0.75"
+            subtitle="New Detections"
+            progress="0.14"
             increase="+14%"
             icon={
               <EmailIcon
@@ -133,7 +133,7 @@ const Dashboard = () => {
           <StatBox
             title="17.6% "
             subtitle="High Severity Breakdown"
-            progress="0.50"
+            progress="0.176"
             increase="+3.2%"
             icon={
               <PointOfSaleIcon
@@ -152,7 +152,7 @@ const Dashboard = () => {
           <StatBox
             title="Malware"
             subtitle="Top Attack Types"
-            progress="0.30"
+            progress="0.353"Malware
             increase="352 / week"
             icon={
               <PersonAddIcon
@@ -171,7 +171,7 @@ const Dashboard = () => {
           <StatBox
             title="21.7%"
             subtitle="False Positive Rate"
-            progress="0.80"
+            progress="0.217"
             increase="-3%"
             icon={
               <TrafficIcon

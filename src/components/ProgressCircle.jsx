@@ -14,7 +14,7 @@ const CustomTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-const ProgressCircle = ({ progress = 0.75, unfilledProgress = 0.25, size = 40 }) => {
+const ProgressCircle = ({ progress = 0.55, unfilledProgress = 0.45, size = 40, subtitle}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const totalAngle = progress * 360;
@@ -37,9 +37,9 @@ const ProgressCircle = ({ progress = 0.75, unfilledProgress = 0.25, size = 40 })
 
     if (distanceFromCenter <= size / 2) {
       if (hoverAngle <= totalAngle) {
-        setTooltipText(`Filled: ${Math.round(progress * 100)}%`);
+        setTooltipText(`${subtitle}: ${Math.round(progress * 100)}%`);
       } else if (hoverAngle <= totalAngle + unfilledAngle) {
-        setTooltipText(`Unfilled: ${Math.round(unfilledProgress * 100)}%`);
+        // setTooltipText(`Unfilled: ${Math.round(unfilledProgress * 100)}%`);
       }
       setShowTooltip(true);
     } else {
