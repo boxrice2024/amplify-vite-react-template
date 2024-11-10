@@ -156,11 +156,13 @@ const Team = () => {
     {
       field: "severityLevel",
       headerName: "Severity Level",
-      flex: 1,
+      headerAlign: "center",
+      minWidth: 125,
+      flex: 0.8,
       renderCell: ({ row: { severityLevel } }) => {
         return (
           <Box
-              width="60%"
+              width="50%"
               m="0 auto"
               p="5px"
               display="flex"
@@ -184,7 +186,10 @@ const Team = () => {
     {
       field: "IDS_IPS_Alert", // Add City column
       headerName: "IDS/IPS Alert",
-      flex: 1,
+      headerAlign: "center",     // Center the header title
+      // align: "center",           // Center the cell content
+      flex: 0.75,                 // Make the column narrower
+      minWidth: 120,             // Ensure a minimum width for readability
     },
     // {
     //   field: "alert_status",
@@ -194,7 +199,8 @@ const Team = () => {
     {
       field: "Summary",
       headerName: "Summary",
-      flex: 1,
+      flex: 0.8,
+      headerAlign: "center",
       renderCell: ({ row: { id } }) => {
         return (
           <Box
