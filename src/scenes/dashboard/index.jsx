@@ -1,8 +1,16 @@
-import { useEffect } from "react";
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
-import { tokens } from "../../theme";
+import React, { useEffect, useState } from "react"; // Include useState here from React
+import {
+  Box,
+  Button,
+  IconButton,
+  Typography,
+  Dialog, // Import Dialog
+  DialogTitle, // Import DialogTitle
+  useTheme
+} from "@mui/material";import { tokens } from "../../theme";
 import { mockDataTeam } from "../../data/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
+import BeenhereOutlinedIcon from '@mui/icons-material/BeenhereOutlined';
 import EmailIcon from "@mui/icons-material/Email";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
@@ -21,6 +29,9 @@ const Dashboard = () => {
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate(); // Initialize useNavigate hook
 
+  const [allAlertsComplete, setAllAlertsComplete] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   // Check if username is available in localStorage
   useEffect(() => {
     const username = localStorage.getItem("username");
@@ -33,6 +44,32 @@ const Dashboard = () => {
      navigate("/team"); // Navigate to /team route
   };
 
+  // Check if all alerts are complete (not "new") when component mounts or data updates
+    useEffect(() => {
+      const areAllAlertsComplete = mockDataTeam.every(alert => alert.alert_status !== "New");
+      setAllAlertsComplete(areAllAlertsComplete);
+    }, [mockDataTeam]);
+
+     // Handle button click to open dialog
+     const handleButtonClick = () => {
+      setDialogOpen(true);
+    };
+
+    // Close the dialog
+    const handleClose = () => {
+      setDialogOpen(false);
+    };
+    useEffect(() => {
+      const username = localStorage.getItem("username");
+      if (!username) {
+        navigate("/signin");
+      }
+    }, [navigate]);
+
+    // const handleNavigate = () => {
+    //   navigate("/team");
+    // };
+
   return (
     <Box m="20px">
       {/* HEADER */}
@@ -42,15 +79,19 @@ const Dashboard = () => {
         <Box>
           <Button
             sx={{
-              backgroundColor: colors.blueAccent[700],
+              backgroundColor: allAlertsComplete ? colors.blueAccent[700] : colors.grey[400],
               color: colors.grey[100],
               fontSize: "14px",
               fontWeight: "bold",
               padding: "10px 20px",
+              cursor: allAlertsComplete ? "pointer" : "not-allowed",
+              opacity: allAlertsComplete ? 1 : 0.6,
             }}
+              onClick={allAlertsComplete ? handleButtonClick : null}
+              disabled={!allAlertsComplete}
           >
-            <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-            Download Reports
+            <BeenhereOutlinedIcon sx={{ mr: "10px" }} />
+            Task Complete
           </Button>
         </Box>
       </Box>
@@ -257,6 +298,11 @@ const Dashboard = () => {
           ))}
         </Box>
       </Box>
+
+      {/* Dialog for completion message */}
+      <Dialog open={dialogOpen} onClose={handleClose}>
+        <DialogTitle>Thank you for completing the experiment!</DialogTitle>
+      </Dialog>
     </Box>
   );
 };
