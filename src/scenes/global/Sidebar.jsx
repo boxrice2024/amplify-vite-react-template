@@ -31,13 +31,18 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 };
 
 const Sidebar = () => {
-  // TODO - call APIs to get data
-
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const location = useLocation(); // Get current route
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard"); // Default selection
+  const [username, setUsername] = useState("ADMINIS"); // Default username
+
+    // Load username from localStorage on component mount
+    useEffect(() => {
+      const storedUsername = localStorage.getItem("username") || "ADMINIS";
+      setUsername(storedUsername);
+    }, []);
 
   // Update selected item whenever the route changes
   useEffect(() => {
@@ -93,7 +98,7 @@ const Sidebar = () => {
                 ml="15px"
               >
                 <Typography variant="h3" color={colors.grey[100]}>
-                  ADMINIS
+                  {username} {/* Display the username from localStorage */}
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />

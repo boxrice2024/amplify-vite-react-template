@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import { mockDataTeam } from "../../data/mockData";
@@ -20,8 +21,16 @@ const Dashboard = () => {
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate(); // Initialize useNavigate hook
 
+  // Check if username is available in localStorage
+  useEffect(() => {
+    const username = localStorage.getItem("username");
+    if (!username) {
+      navigate("/signin"); // Redirect to sign-in if username is not available
+    }
+  }, [navigate]);
+
   const handleNavigate = () => {
-    navigate("/team"); // Navigate to /Team route
+     navigate("/team"); // Navigate to /team route
   };
 
   return (

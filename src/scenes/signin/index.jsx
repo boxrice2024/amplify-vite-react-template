@@ -1,31 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import {
   Avatar,
   Box,
   Container,
-  FormControlLabel,
   Paper,
   TextField,
   Typography,
-  Checkbox,
   Button,
-  Grid,
-  Link,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { Link as RouterLink } from "react-router-dom";
 
 const SignInPage = () => {
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate(); // Create the navigate function
+  const navigate = useNavigate();
+
+  // Check if the username is already in localStorage
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+    if (storedUsername) {
+      navigate("/dashboard"); // Redirect to dashboard if username exists
+    }
+  }, [navigate]);
 
   const handleSubmit = (event) => {
-    event.preventDefault(); // Prevent default form submission behavior
-    console.log("login", { username, password });
-    // Add any necessary login logic here (authentication)
-    navigate("/dashboard"); // Navigate to the dashboard after successful sign-in
+    event.preventDefault();
+
+    if (!username) {
+      alert("Please enter a username to sign in.");
+      return;
+    }
+
+    // Save username to localStorage for use on other pages
+    localStorage.setItem("username", username);
+
+    // Navigate to the dashboard after saving the username
+    navigate("/dashboard");
   };
 
   return (
@@ -56,36 +66,10 @@ const SignInPage = () => {
             onChange={(e) => setUsername(e.target.value)} // Capture input
             sx={{ mb: 2 }}
           />
-          {/* <TextField
-            placeholder="Enter password"
-            fullWidth
-            required
-            type="password"
-            name="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)} // Capture input
-          /> */}
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
           <Button type="submit" variant="contained" fullWidth sx={{ mt: 1 }}>
             Sign In
           </Button>
         </Box>
-        <Grid container justifyContent="space-between" sx={{ mt: 1 }}>
-          {/* <Grid item>
-            <Link component={RouterLink} to="/forgot">
-              Forgot password?
-            </Link>
-          </Grid>
-          <Grid item>
-            <Link component={RouterLink} to="/register">
-              Sign Up
-            </Link>
-          </Grid> */}
-        </Grid>
       </Paper>
     </Container>
   );
