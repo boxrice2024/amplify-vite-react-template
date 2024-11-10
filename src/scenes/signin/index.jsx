@@ -10,6 +10,14 @@ import {
   Button,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { mockDataTeam } from "../../data/mockData";
+import { generateClient } from 'aws-amplify/data';
+
+const client = generateClient();
+
+const createAlert = async(alert) => {
+  await client.models.Alert.create(alert);
+}
 
 const SignInPage = () => {
   const [username, setUsername] = useState("");
@@ -23,13 +31,16 @@ const SignInPage = () => {
     }
   }, [navigate]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
 
     if (!username) {
       alert("Please enter a username to sign in.");
       return;
     }
+
+    // create brand new alerts for new username
+    await Promise.all(mockDataTeam.map(alert => createAlert(alert)));
 
     // Save username to localStorage for use on other pages
     localStorage.setItem("username", username);

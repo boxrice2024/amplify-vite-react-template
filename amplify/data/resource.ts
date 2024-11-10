@@ -12,6 +12,35 @@ const schema = a.schema({
       content: a.string(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
+  Alert: a
+    .model({
+      alert_id: a.integer(),
+      alert_status: a.string(),
+      timestamp: a.string(),
+      sourceIP: a.string(),
+      desIP: a.string(),
+      sourcePort: a.string(),
+      desPort: a.string(),
+      protocol: a.string(),
+      packetLen: a.integer(),
+      packetType: a.string(),
+      trafficType: a.string(),
+      payloadData: a.string(),
+      malwareIOC: a.string(),
+      anomaly_score: a.float(),
+      type: a.string(),
+      attckSig: a.string(),
+      severityLevel: a.string(),
+      userInfo: a.string(),
+      deviceInfo: a.string(),
+      networkSeg: a.string(),
+      geoLoc: a.string(),
+      proxyInfo: a.string(),
+      firewall: a.string(),
+      IDS_IPS_Alert: a.string(),
+      logSource: a.string(),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;

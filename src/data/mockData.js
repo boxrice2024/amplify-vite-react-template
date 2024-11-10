@@ -2,7 +2,7 @@ import { tokens } from "../theme";
 
 export const mockDataTeam = [
   {
-    id: 16346,
+    alert_id: "16346",
     alert_status: "New",
     timestamp: "2022-02-20  17:53:00",
     sourceIP:"26.60.52.206",
@@ -29,7 +29,7 @@ export const mockDataTeam = [
     logSource: "Firewall",
   },
   {
-    id: 92405,
+    alert_id: 92405,
     alert_status: "New",
     timestamp: "2022-09-10 23:19",
     sourceIP:"42.9.49.72",
@@ -56,7 +56,7 @@ export const mockDataTeam = [
     logSource: "Server",
   },
   {
-    id: 43032,
+    alert_id: 43032,
     alert_status: "New",
     timestamp: "2022-07-06 17:25",
     sourceIP:"171.250.115.34",
@@ -83,7 +83,7 @@ export const mockDataTeam = [
     logSource: "Server",
   },
   {
-    id: 81816,
+    alert_id: 81816,
     alert_status: "New",
     timestamp: "2022-07-28 15:36",
     sourceIP:"126.231.92.226",
@@ -110,7 +110,7 @@ export const mockDataTeam = [
     logSource: "Server",
   },
   {
-    id: 29322,
+    alert_id: 29322,
     alert_status: "New",
     timestamp: "2022-03-18 10:42:00",
     sourceIP: "247.129.139.98",
@@ -137,7 +137,7 @@ export const mockDataTeam = [
     logSource: "Server",
   },
   {
-    id: 14918,
+    alert_id: 14918,
     alert_status: "New",
     timestamp: "2022-10-23 15:41:00",
     sourceIP: "35.114.94.120",
@@ -164,7 +164,7 @@ export const mockDataTeam = [
     logSource: "Firewall",
   },
   {
-    id: 41448,
+    alert_id: 41448,
     alert_status: "New",
     timestamp: "2022-07-02 08:31:00",
     sourceIP: "46.226.122.95",
@@ -191,7 +191,7 @@ export const mockDataTeam = [
     logSource: "Server",
   },
   {
-    id: 29329,
+    alert_id: 29329,
     alert_status: "New",
     timestamp: "2022-10-01 12:49:00",
     sourceIP: "169.243.110.95",
@@ -218,7 +218,7 @@ export const mockDataTeam = [
     logSource: "Server",
   },
   {
-    id: 31827,
+    alert_id: 31827,
     alert_status: "New",
     timestamp: "2022-07-21 14:26:00",
     sourceIP: "218.188.129.134",
@@ -245,7 +245,7 @@ export const mockDataTeam = [
     logSource: "Firewall",
   },
   {
-    id: 53431,
+    alert_id: 53431,
     alert_status: "New",
     timestamp: "2022-06-18 02:42:00",
     sourceIP: "191.134.151.125",
@@ -272,7 +272,7 @@ export const mockDataTeam = [
     logSource: "Firewall",
   },
   {
-    id: 23713,
+    alert_id: 23713,
     alert_status: "New",
     timestamp: "2022-03-08 03:42:00",
     sourceIP: "27.247.159.44",
@@ -299,7 +299,7 @@ export const mockDataTeam = [
     logSource: "Server",
   },
   {
-    id: 63849,
+    alert_id: 63849,
     alert_status: "New",
     timestamp: "2022-02-18 08:57:00",
     sourceIP: "192.222.133.192",
@@ -326,7 +326,7 @@ export const mockDataTeam = [
     logSource: "Server",
   },
   {
-    id: 37239,
+    alert_id: 37239,
     alert_status: "New",
     timestamp: "2022-07-15 20:11:00",
     sourceIP: "2.34.42.67",
@@ -353,7 +353,7 @@ export const mockDataTeam = [
     logSource: "Server",
   },
   {
-    id: 68335,
+    alert_id: 68335,
     alert_status: "New",
     timestamp: "2022-11-20 13:07:00",
     sourceIP: "171.65.81.115",
@@ -380,7 +380,7 @@ export const mockDataTeam = [
     logSource: "Server",
   },
   {
-    id: 68034,
+    alert_id: 68034,
     alert_status: "New",
     timestamp: "2022-02-08 16:55",
     sourceIP: "126.231.92.226",
@@ -407,7 +407,7 @@ export const mockDataTeam = [
     logSource: "Firewall",
   },
   {
-    id: 39901,
+    alert_id: 39901,
     alert_status: "New",
     timestamp: "2022-05-17 19:11",
     sourceIP: "219.191.217.68",
@@ -434,7 +434,7 @@ export const mockDataTeam = [
     logSource: "Server",
   },
   {
-    id: 18250,
+    alert_id: 18250,
     alert_status: "New",
     timestamp: "2022-09-20 8:33",
     sourceIP: "122.159.219.196",

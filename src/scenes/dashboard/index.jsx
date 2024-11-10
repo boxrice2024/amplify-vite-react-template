@@ -259,7 +259,7 @@ const Dashboard = () => {
           </Box>
           {mockDataTeam.map((alert, i) => (
           <Box
-              key={`${alert.id}-${i}`}
+              key={`${alert.alert_id}-${i}`}
               display="flex"
               justifyContent="space-between"
               alignItems="center"
@@ -272,7 +272,7 @@ const Dashboard = () => {
                   variant="h5"
                   fontWeight="600"
                 >
-                  {alert.id}  {/* Display ID */}
+                  {alert.alert_id}  {/* Display ID */}
                 </Typography>
                 <Typography color={colors.grey[100]}>
                   {alert.timestamp}  {/* Display Timestamp */}
