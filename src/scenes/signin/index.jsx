@@ -11,12 +11,39 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { mockDataTeam } from "../../data/mockData";
-import { generateClient } from 'aws-amplify/data';
+import { client } from '../../db/client';
 
-const client = generateClient();
+const createAlert = async(alert, userName) => {
+  await client.models.Alert.create({
+    userName: userName,
+    ...alert,
+  });
+}
 
-const createAlert = async(alert) => {
-  await client.models.Alert.create(alert);
+const listAlerts = async(userName) => {
+  const { data: alerts, errors } = await client.models.Alert.list({
+    filter: {
+      userName: {
+        eq: userName
+      }
+    }
+  });
+
+  return alerts;
+}
+
+const getUser = async(userName) => {
+  const { data: user, errors } = await client.models.User.get({
+    userName: userName,
+  });
+
+  return user;
+}
+
+const createUser = async(userName) => {
+  await client.models.User.create({
+    userName: userName,
+  });
 }
 
 const SignInPage = () => {
@@ -39,8 +66,14 @@ const SignInPage = () => {
       return;
     }
 
-    // create brand new alerts for new username
-    await Promise.all(mockDataTeam.map(alert => createAlert(alert)));
+    // get a user by user name
+    const user = await getUser(username);
+    if (!user) {
+      alert("No user for the name! Creating a new user...")
+      await createUser(username);
+      // create brand new alerts for new user
+      await Promise.all(mockDataTeam.map(alert => createAlert(alert, username)));
+    }
 
     // Save username to localStorage for use on other pages
     localStorage.setItem("username", username);

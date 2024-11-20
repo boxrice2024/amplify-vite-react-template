@@ -12,8 +12,18 @@ const schema = a.schema({
       content: a.string(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
+  User: a
+    .model({
+      userName: a.string().required(),
+      isSurveyComplete: a.boolean().default(false),
+      alerts: a.hasMany('Alert', 'userName'),
+    })
+    .identifier(['userName'])
+    .authorization((allow) => [allow.publicApiKey()]),
   Alert: a
     .model({
+      userName: a.string(),
+      user: a.belongsTo('User', 'userName'),
       alert_id: a.integer(),
       alert_status: a.string(),
       timestamp: a.string(),
