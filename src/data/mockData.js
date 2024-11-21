@@ -1,5 +1,8 @@
 import { tokens } from "../theme";
 
+// This is the seed data of Alert table.
+// It's used to create new records in Alert table
+// for new User.
 export const mockDataTeam = [
   {
     alert_id: "16346",

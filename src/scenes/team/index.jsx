@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme"; 
@@ -7,6 +7,8 @@ import EventDetail from "../../components/EventDetail"; // Import EventDetail co
 import { useTheme } from "@mui/material";
 import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close"; // Import the close icon
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { client } from '../../db/client';
 
 const Team = () => {
   const theme = useTheme();
@@ -17,8 +19,37 @@ const Team = () => {
   // State to hold the content for each row
   const [selectedDetails, setSelectedDetails] = useState(null);
   const [selectedRow, setSelectedRow] = useState(null); // To hold row-level data
-  const [teamData, setTeamData] = useState(initialData); // Team data (mocked)
+  const [teamData, setTeamData] = useState([]); // Team data
   const [selectionModel, setSelectionModel] = useState([]); // To track selected rows
+  const navigate = useNavigate(); // Initialize useNavigate hook
+
+  // Get alerts
+  useEffect(() => {
+    const listAlerts = async() => {
+      const userName = localStorage.getItem("username");
+      if (!userName) {
+        navigate("/signin"); // Redirect to sign-in if username is not available
+        return;
+      }
+      const { data: alerts, errors } = await client.models.Alert.list({
+        filter: {
+          userName: {
+            eq: userName
+          }
+        }
+      });
+      setTeamData(alerts);
+    };
+    listAlerts();
+  }, []);
+
+  // Check if username is available in localStorage
+  useEffect(() => {
+    const username = localStorage.getItem("username");
+    if (!username) {
+      navigate("/signin"); // Redirect to sign-in if username is not available
+    }
+  }, [navigate]);
 
   // Function to get details based on the row's ID
   const getDetailsById = (id) => {
@@ -122,7 +153,7 @@ const Team = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "Alert ID" },
+    { field: "alert_id", headerName: "Alert ID" },
     {
       field: "alert_status",
       headerName: "Status",
