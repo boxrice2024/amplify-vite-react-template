@@ -22,15 +22,44 @@ import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { client } from '../../db/client';
 
+const countNewAlerts = (alerts) => {
+    return alerts.filter((item) => item.alert_status === "New").length;
+}
+
+const isAllAlertsComplete = (alerts) => {
+    return countNewAlerts(alerts) == 0;
+}
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate(); // Initialize useNavigate hook
 
-  const [allAlertsComplete, setAllAlertsComplete] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  const [alertData, setAlertData] = useState([]); // Alert data
+
+  // Get alerts
+  useEffect(() => {
+    const listAlerts = async() => {
+      const userName = localStorage.getItem("username");
+      if (!userName) {
+        navigate("/signin"); // Redirect to sign-in if username is not available
+        return;
+      }
+      const { data: alerts, errors } = await client.models.Alert.list({
+        filter: {
+          userName: {
+            eq: userName
+          }
+        }
+      });
+      setAlertData(alerts);
+    };
+    listAlerts();
+  }, []);
 
   // Check if username is available in localStorage
   useEffect(() => {
@@ -44,31 +73,25 @@ const Dashboard = () => {
      navigate("/team"); // Navigate to /team route
   };
 
-  // Check if all alerts are complete (not "new") when component mounts or data updates
-    useEffect(() => {
-      const areAllAlertsComplete = mockDataTeam.every(alert => alert.alert_status !== "New");
-      setAllAlertsComplete(areAllAlertsComplete);
-    }, [mockDataTeam]);
+   // Handle button click to open dialog
+   const handleButtonClick = () => {
+    setDialogOpen(true);
+  };
 
-     // Handle button click to open dialog
-     const handleButtonClick = () => {
-      setDialogOpen(true);
-    };
+  // Close the dialog
+  const handleClose = () => {
+    setDialogOpen(false);
+  };
+  useEffect(() => {
+    const username = localStorage.getItem("username");
+    if (!username) {
+      navigate("/signin");
+    }
+  }, [navigate]);
 
-    // Close the dialog
-    const handleClose = () => {
-      setDialogOpen(false);
-    };
-    useEffect(() => {
-      const username = localStorage.getItem("username");
-      if (!username) {
-        navigate("/signin");
-      }
-    }, [navigate]);
-
-    // const handleNavigate = () => {
-    //   navigate("/team");
-    // };
+  // const handleNavigate = () => {
+  //   navigate("/team");
+  // };
 
   return (
     <Box m="20px">
@@ -79,16 +102,16 @@ const Dashboard = () => {
         <Box>
           <Button
             sx={{
-              backgroundColor: allAlertsComplete ? colors.blueAccent[700] : colors.grey[400],
+              backgroundColor: isAllAlertsComplete(alertData) ? colors.blueAccent[700] : colors.grey[400],
               color: colors.grey[100],
               fontSize: "14px",
               fontWeight: "bold",
               padding: "10px 20px",
-              cursor: allAlertsComplete ? "pointer" : "not-allowed",
-              opacity: allAlertsComplete ? 1 : 0.6,
+              cursor: isAllAlertsComplete(alertData) ? "pointer" : "not-allowed",
+              opacity: isAllAlertsComplete(alertData) ? 1 : 0.6,
             }}
-              onClick={allAlertsComplete ? handleButtonClick : null}
-              disabled={!allAlertsComplete}
+              onClick={isAllAlertsComplete(alertData) ? handleButtonClick : null}
+              disabled={!isAllAlertsComplete(alertData)}
           >
             <BeenhereOutlinedIcon sx={{ mr: "10px" }} />
             Task Complete
@@ -112,10 +135,10 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title="17"
+            title={countNewAlerts(alertData)}
             subtitle="New Detections"
-            progress="0.14"
-            increase="+14%"
+            progress={(countNewAlerts(alertData)*100/125.0)/100}
+            increase={"+" + (countNewAlerts(alertData)*100/125.0) + "%"}
             icon={
               <EmailIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
