@@ -17,6 +17,16 @@ const updateAlertStatus = async(id, status) => {
   });
 }
 
+const getSeverityLevelValue = (severityLevel) => {
+  if (severityLevel === "High") {
+    return 1;
+  } else if (severityLevel === "Medium") {
+    return 2;
+  } else {
+    return 3;
+  }
+}
+
 const Team = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode); 
@@ -204,6 +214,7 @@ const Team = () => {
       headerAlign: "center",
       minWidth: 125,
       flex: 0.8,
+      sortComparator: (v1, v2) => getSeverityLevelValue(v2) - getSeverityLevelValue(v1),
       renderCell: ({ row: { severityLevel } }) => {
         return (
           <Box
