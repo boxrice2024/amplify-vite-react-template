@@ -10,6 +10,13 @@ import CloseIcon from "@mui/icons-material/Close"; // Import the close icon
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { client } from '../../db/client';
 
+const updateAlertStatus = async(id, status) => {
+  await client.models.Alert.update({
+    id: id,
+    alert_status: status,
+  });
+}
+
 const Team = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode); 
@@ -57,6 +64,7 @@ const Team = () => {
     if (rowDetails) {
       setSelectedRow({
         id: rowDetails.id,
+        alert_id: rowDetails.alert_id,
         type: rowDetails.type,
         firewall: rowDetails.firewall,
         anomaly_score: rowDetails.anomaly_score,
@@ -132,8 +140,13 @@ const Team = () => {
     setOpen(false);
   };
 
-  // Function to update the city status of selected rows
-  const updateSelectedRowsCity = (newAlert_status) => {
+  // Function to update the alert status of selected rows
+  const updateSelectedRowsCity = async(newAlert_status) => {
+    await Promise.all(teamData.map(row => {
+      if (selectionModel.includes(row.id)) {
+        updateAlertStatus(row.id, newAlert_status);
+      }
+    }));
     const updatedRows = teamData.map((row) =>
       selectionModel.includes(row.id) ? { ...row, alert_status: newAlert_status } : row
     );
@@ -141,9 +154,10 @@ const Team = () => {
     setSelectionModel([]);     // Clear selection after updating
   };
 
-  // Function to update the city status of the row in the dialog
-  const updateDialogCity = (newAlert_status) => {
+  // Function to update the alert status of the row in the dialog
+  const updateDialogCity = async(newAlert_status) => {
     if (selectedRow) {
+      await updateAlertStatus(selectedRow.id, newAlert_status);
       const updatedRows = teamData.map((row) =>
         row.id === selectedRow.id ? { ...row, alert_status: newAlert_status } : row
       );

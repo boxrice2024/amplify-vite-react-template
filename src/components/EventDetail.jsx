@@ -55,7 +55,7 @@ const EventDetail = ({ details, row }) => {
       {/* Display row-level details in two columns */}
       <Grid container spacing={2} mb={4}>
         <Grid item xs={6}>
-          <Typography><strong>ID:</strong> {row.id}</Typography>
+          <Typography><strong>ID:</strong> {row.alert_id}</Typography>
           <Typography><strong>Timestamp:</strong> {row.timestamp}</Typography>
         </Grid>
         <Grid item xs={6}>
