@@ -17,6 +17,7 @@ const schema = a.schema({
       userName: a.string().required(),
       isSurveyComplete: a.boolean().default(false),
       alerts: a.hasMany('Alert', 'userName'),
+      actions: a.hasMany('Action', 'userName'),
     })
     .identifier(['userName'])
     .authorization((allow) => [allow.publicApiKey()]),
@@ -49,6 +50,13 @@ const schema = a.schema({
       firewall: a.string(),
       IDS_IPS_Alert: a.string(),
       logSource: a.string(),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
+  Action: a
+    .model({
+      userName: a.string(),
+      user: a.belongsTo('User', 'userName'),
+      uiComponentName: a.string(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
 });

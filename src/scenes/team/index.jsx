@@ -8,7 +8,7 @@ import { useTheme } from "@mui/material";
 import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close"; // Import the close icon
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
-import { client } from '../../db/client';
+import { client, logUserAction } from '../../db/client';
 
 const updateAlertStatus = async(id, status) => {
   await client.models.Alert.update({
@@ -38,6 +38,7 @@ const Team = () => {
   const [selectedRow, setSelectedRow] = useState(null); // To hold row-level data
   const [teamData, setTeamData] = useState([]); // Team data
   const [selectionModel, setSelectionModel] = useState([]); // To track selected rows
+  const [userName, setUserName] = useState([]);
   const navigate = useNavigate(); // Initialize useNavigate hook
 
   // Get alerts
@@ -55,6 +56,7 @@ const Team = () => {
           }
         }
       });
+      setUserName(userName);
       setTeamData(alerts);
     };
     listAlerts();
@@ -285,7 +287,14 @@ const Team = () => {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => updateSelectedRowsCity("Log")}
+          onClick={() =>
+            {
+              updateSelectedRowsCity("Log");
+              console.log("username:" + userName);
+              console.log("UI-Component-Name:" + "List_page_Log");
+              logUserAction(userName, "List_page_Log");
+            }
+          }
           disabled={selectionModel.length === 0}  // Buttons are active only when rows are selected
           sx={{ mr: 2 }}
         >
@@ -297,9 +306,9 @@ const Team = () => {
           onClick={() => 
             {
               updateSelectedRowsCity("Block");
-              // TODO - call APIs to save user action
-              console.log("username:" + "fan");
-              console.log("UI-Component-Name:" + "xxx button");
+              console.log("username:" + userName);
+              console.log("UI-Component-Name:" + "List_page_Block");
+              logUserAction(userName, "List_page_Block");
             }
           }
           disabled={selectionModel.length === 0}  // Buttons are active only when rows are selected
@@ -310,7 +319,14 @@ const Team = () => {
         <Button
           variant="contained"
           color="success"
-          onClick={() => updateSelectedRowsCity("Escalate")}
+          onClick={() =>
+            {
+              updateSelectedRowsCity("Escalate");
+              console.log("username:" + userName);
+              console.log("UI-Component-Name:" + "List_page_Escalate");
+              logUserAction(userName, "List_page_Escalate");
+            }
+          }
           disabled={selectionModel.length === 0}  // Buttons are active only when rows are selected
         >
           Escalate
