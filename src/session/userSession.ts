@@ -1,7 +1,7 @@
 import { client } from '../db/client';
 
-const getUser = async(userName) => {
-  const { data: user, errors } = await client.models.User.get({
+const getUser = async(userName:string) => {
+  const { data: user } = await client.models.User.get({
     userName: userName,
   });
 
