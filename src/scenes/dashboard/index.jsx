@@ -23,6 +23,7 @@ import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { client } from '../../db/client';
+import { getUserSession, clearUserSession } from '../../session/userSession';
 
 const countNewAlerts = (alerts) => {
     return alerts.filter((item) => item.alert_status === "New").length;
@@ -32,19 +33,26 @@ const isAllAlertsComplete = (alerts) => {
     return countNewAlerts(alerts) == 0;
 }
 
+const completeSurvey = async(userName) => {
+  await client.models.User.update({
+    userName: userName,
+    isSurveyComplete: true,
+  });
+}
+
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate(); // Initialize useNavigate hook
 
   const [dialogOpen, setDialogOpen] = useState(false);
-
+  const [userName, setUserName] = useState([]);
   const [alertData, setAlertData] = useState([]); // Alert data
 
   // Get alerts
   useEffect(() => {
     const listAlerts = async() => {
-      const userName = localStorage.getItem("username");
+      const userName = await getUserSession();
       if (!userName) {
         navigate("/signin"); // Redirect to sign-in if username is not available
         return;
@@ -56,6 +64,7 @@ const Dashboard = () => {
           }
         }
       });
+      setUserName(userName);
       setAlertData(alerts);
     };
     listAlerts();
@@ -63,31 +72,31 @@ const Dashboard = () => {
 
   // Check if username is available in localStorage
   useEffect(() => {
-    const username = localStorage.getItem("username");
-    if (!username) {
-      navigate("/signin"); // Redirect to sign-in if username is not available
-    }
+    const checkSession = async() => {
+      const userName = await getUserSession();
+      if (!userName) {
+        navigate("/signin"); // Redirect to sign-in if username is not available
+      }
+    };
+    checkSession();
   }, [navigate]);
 
   const handleNavigate = () => {
      navigate("/team"); // Navigate to /team route
   };
 
-   // Handle button click to open dialog
-   const handleButtonClick = () => {
+  // Handle button click to open dialog
+  const handleButtonClick = async() => {
     setDialogOpen(true);
+    await completeSurvey(userName);
   };
 
   // Close the dialog
   const handleClose = () => {
     setDialogOpen(false);
+    clearUserSession();
+    navigate("/signin");
   };
-  useEffect(() => {
-    const username = localStorage.getItem("username");
-    if (!username) {
-      navigate("/signin");
-    }
-  }, [navigate]);
 
   // const handleNavigate = () => {
   //   navigate("/team");

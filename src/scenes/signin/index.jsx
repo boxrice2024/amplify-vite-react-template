@@ -12,6 +12,7 @@ import {
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { mockDataTeam } from "../../data/mockData";
 import { client } from '../../db/client';
+import { getUserSession } from '../../session/userSession';
 
 const createAlert = async(alert, userName) => {
   await client.models.Alert.create({
@@ -52,10 +53,13 @@ const SignInPage = () => {
 
   // Check if the username is already in localStorage
   useEffect(() => {
-    const storedUsername = localStorage.getItem("username");
-    if (storedUsername) {
-      navigate("/dashboard"); // Redirect to dashboard if username exists
-    }
+    const checkSession = async() => {
+      const userName = await getUserSession();
+      if (userName) {
+        navigate("/dashboard"); // Redirect to sign-in if username is not available
+      }
+    };
+    checkSession();
   }, [navigate]);
 
   const handleSubmit = async(event) => {
@@ -73,6 +77,9 @@ const SignInPage = () => {
       await createUser(username);
       // create brand new alerts for new user
       await Promise.all(mockDataTeam.map(alert => createAlert(alert, username)));
+    } else if(user.isSurveyComplete) {
+      alert("This user has completed the experience!");
+      return;
     }
 
     // Save username to localStorage for use on other pages

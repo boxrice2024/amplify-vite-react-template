@@ -9,6 +9,7 @@ import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close"; // Import the close icon
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { client, logUserAction } from '../../db/client';
+import { getUserSession } from '../../session/userSession';
 
 const updateAlertStatus = async(id, status) => {
   await client.models.Alert.update({
@@ -44,7 +45,7 @@ const Team = () => {
   // Get alerts
   useEffect(() => {
     const listAlerts = async() => {
-      const userName = localStorage.getItem("username");
+      const userName = await getUserSession();
       if (!userName) {
         navigate("/signin"); // Redirect to sign-in if username is not available
         return;
@@ -64,10 +65,13 @@ const Team = () => {
 
   // Check if username is available in localStorage
   useEffect(() => {
-    const username = localStorage.getItem("username");
-    if (!username) {
-      navigate("/signin"); // Redirect to sign-in if username is not available
-    }
+    const checkSession = async() => {
+      const userName = await getUserSession();
+      if (!userName) {
+        navigate("/signin"); // Redirect to sign-in if username is not available
+      }
+    };
+    checkSession();
   }, [navigate]);
 
   // Function to get details based on the row's ID
