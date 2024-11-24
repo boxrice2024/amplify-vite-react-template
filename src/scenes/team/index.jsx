@@ -78,6 +78,9 @@ const Team = () => {
   const getDetailsById = (id) => {
     const rowDetails = teamData.find((row) => row.id === id);
     if (rowDetails) {
+      console.log("username:" + userName);
+      console.log("UI-Component-Name:" + "see_details_with_" + rowDetails.alert_id);
+      logUserAction(userName, "see_details_with_" + rowDetails.alert_id);
       setSelectedRow({
         id: rowDetails.id,
         alert_id: rowDetails.alert_id,

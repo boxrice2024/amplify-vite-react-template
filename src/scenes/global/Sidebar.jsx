@@ -10,6 +10,7 @@ import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import { logUserAction } from '../../db/client';
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -21,7 +22,23 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
       style={{
         color: colors.grey[100],
       }}
-      onClick={() => setSelected(title)} // Update selected item when clicked
+      onClick={() => {
+        const userName = localStorage.getItem("username");
+        if (userName) {
+          console.log("username:" + userName);
+          if (location.pathname === "/team") {
+            console.log("UI-Component-Name:" + "side_Bar_Alert_List");
+            logUserAction(userName, "side_Bar_Alert_List");
+          } else if (location.pathname === "/faq") {
+            console.log("UI-Component-Name:" + "side_Bar_RunBook");
+            logUserAction(userName, "side_Bar_RunBook");
+          } else if (location.pathname === "/dashboard") {
+            console.log("UI-Component-Name:" + "side_Bar_Dashbaord");
+            logUserAction(userName, "side_Bar_Dashbaord");
+          }
+        }
+        setSelected(title)
+      }} // Update selected item when clicked
       icon={icon}
     >
       <Typography>{title}</Typography>
@@ -110,7 +127,7 @@ const Sidebar = () => {
           <Box paddingLeft={isCollapsed ? undefined : "5%"}>
             <Item
               title="Dashboard"
-              to="/"
+              to="/dashboard"
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

@@ -22,7 +22,7 @@ import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
-import { client } from '../../db/client';
+import { client, logUserAction } from '../../db/client';
 import { getUserSession, clearUserSession } from '../../session/userSession';
 
 const countNewAlerts = (alerts) => {

@@ -9,6 +9,7 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { client, logUserAction } from '../../db/client';
 
 const Topbar = () => {
   const theme = useTheme();
@@ -30,6 +31,12 @@ const Topbar = () => {
 
   // Logout function
   const handleLogout = () => {
+    const userName = localStorage.getItem("username");
+    if (userName) {
+      console.log("username:" + userName);
+      console.log("UI-Component-Name:" + "Log_out");
+      logUserAction(userName, "Log_out");
+    }
     localStorage.removeItem("username"); // Clear username from localStorage
     navigate("/signin"); // Redirect to sign-in page
   };
