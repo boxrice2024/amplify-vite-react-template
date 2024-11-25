@@ -1,6 +1,17 @@
 import React from "react";
 import { Box, Accordion, AccordionSummary, AccordionDetails, Typography, Grid } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { logUserAction } from '../db/client';
+
+const recordUserAction = (groupName) => {
+  const userName = localStorage.getItem("username");
+  const uiComponentName = "Alert_Accordion_with_" + groupName;
+  if (userName) {
+    console.log("username:" + userName);
+    console.log("UI-Component-Name:" + uiComponentName);
+    logUserAction(userName, uiComponentName);
+  }
+}
 
 const EventDetail = ({ details, row }) => {
   const sections = [
@@ -16,6 +27,7 @@ const EventDetail = ({ details, row }) => {
         <Typography component="span"><strong>Packet Type:</strong> {row.packetType || "N/A"}</Typography>,
         <Typography component="span"><strong>Traffic Type:</strong> {row.trafficType || "N/A"}</Typography>,
       ],
+      recordUserAction: () => {recordUserAction("Network");},
     },
     {
       title: "Group 2: Threat Indicators and Detection",
@@ -26,6 +38,7 @@ const EventDetail = ({ details, row }) => {
         <Typography component="span"><strong>Log Source:</strong> {row.logSource || "N/A"}</Typography>,
         <Typography component="span"><strong>Attack Signature:</strong> {row.attckSig || "N/A"}</Typography>,
       ],
+      recordUserAction: () => {recordUserAction("Threat");},
     },
     {
       title: "Group 3: User and Device Context",
@@ -34,6 +47,7 @@ const EventDetail = ({ details, row }) => {
         <Typography component="span"><strong>Device Information:</strong> {row.deviceInfo || "N/A"}</Typography>,
         <Typography component="span"><strong>Network Segment:</strong> {row.networkSeg || "N/A"}</Typography>,
       ],
+      recordUserAction: () => {recordUserAction("User");},
     },
     {
       title: "Group 4:Geolocation and Proxy Information",
@@ -41,12 +55,14 @@ const EventDetail = ({ details, row }) => {
         <Typography component="span"><strong>Geo-location Data:</strong> {row.geoLoc || "N/A"}</Typography>,
         <Typography component="span"><strong>Proxy Information:</strong> {row.proxyInfo || "N/A"}</Typography>,
       ],
+      recordUserAction: () => {recordUserAction("Geolocation");},
     },
     {
       title: "Group 5:  Payload Analysis",
       info: [
         <Typography component="span"><strong>Payload Data:</strong> {row.payloadData || "N/A"}</Typography>,
       ],
+      recordUserAction: () => {recordUserAction("Payload");},
     },
   ];
 
@@ -73,7 +89,7 @@ const EventDetail = ({ details, row }) => {
       {/* Display grouped information in accordions */}
       {sections.map((section, index) => (
         <Accordion key={index}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />} onClick={section.recordUserAction}>
             <Typography>{section.title}</Typography>
           </AccordionSummary>
           <AccordionDetails>

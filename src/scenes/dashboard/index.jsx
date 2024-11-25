@@ -87,6 +87,9 @@ const Dashboard = () => {
 
   // Handle button click to open dialog
   const handleButtonClick = async() => {
+    console.log("username:" + userName);
+    console.log("UI-Component-Name:" + "Task_Complete");
+    logUserAction(userName, "Task_Complete");
     setDialogOpen(true);
     await completeSurvey(userName);
   };

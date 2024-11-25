@@ -7,7 +7,17 @@ import Typography from "@mui/material/Typography";
 import { tokens } from "../../theme";
 import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material"; // Only new components here
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { logUserAction } from '../../db/client';
 
+const recordUserAction = (sectionName) => {
+  const userName = localStorage.getItem("username");
+  const uiComponentName = "Runbook_Accordion_with_" + sectionName;
+  if (userName) {
+    console.log("username:" + userName);
+    console.log("UI-Component-Name:" + uiComponentName);
+    logUserAction(userName, uiComponentName);
+  }
+}
 
 const FAQ = () => {
   const theme = useTheme();
@@ -20,7 +30,7 @@ const FAQ = () => {
       <Accordion 
         // defaultExpanded
         >
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} onClick={() => {recordUserAction("Response");}}>
           <Typography color={colors.greenAccent[500]} variant="h5">
           Response Action Guidance
           </Typography>
@@ -86,7 +96,7 @@ const FAQ = () => {
       <Accordion 
         // defaultExpanded
         >
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} onClick={() => {recordUserAction("Criteria");}}>
           <Typography color={colors.greenAccent[500]} variant="h5">
             Criteria Box
           </Typography>
@@ -198,7 +208,7 @@ const FAQ = () => {
       <Accordion 
         // defaultExpanded
         >
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} onClick={() => {recordUserAction("Entry");}}>
           <Typography color={colors.greenAccent[500]} variant="h5">
           Entry Classification and Related Information
           </Typography>
@@ -447,7 +457,7 @@ const FAQ = () => {
       <Accordion
         // defaultExpanded
       >
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} onClick={() => {recordUserAction("Recommended");}}>
           <Typography color={colors.greenAccent[500]} variant="h5">
             Recommended Workflow
           </Typography>
@@ -462,22 +472,7 @@ const FAQ = () => {
         </Typography>
       </AccordionDetails>
       </Accordion>
-      
-      <Accordion 
-        // defaultExpanded
-        >
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography color={colors.greenAccent[500]} variant="h5">
-            Some Examples
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
+
     </Box>
   );
 };
