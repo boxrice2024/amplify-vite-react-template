@@ -10,6 +10,8 @@ import Dashboard from "./scenes/dashboard";
 import Team from "./scenes/team";
 // @ts-ignore
 import FAQ from "./scenes/faq";
+// @ts-ignore
+import Warmup from "./scenes/warmup";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 // @ts-ignore
 import { ColorModeContext, useMode } from "./theme";
@@ -26,7 +28,7 @@ function App() {
   const location = useLocation(); // Get the current route
 
   // Conditionally render sidebar and topbar only if not on SignInPage
-  const shouldShowSidebarAndTopbar = location.pathname !== "/";
+  const shouldShowSidebarAndTopbar = location.pathname !== "/" && location.pathname !== "/warmup";
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -41,6 +43,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/team" element={<Team />} />
               <Route path="/faq" element={<FAQ />} />
+              <Route path="/warmup" element={<Warmup />} />
               {/* Redirect any unknown route to sign-in */}
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
