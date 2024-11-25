@@ -59,6 +59,18 @@ const Team = () => {
       });
       setUserName(userName);
       setTeamData(alerts);
+
+      const inputElement = document.querySelector('input[aria-label="Select all rows"]');
+      inputElement.addEventListener('click', () => {
+        console.log("username:" + userName);
+        console.log("UI-Component-Name:" + "Checkbox_all");
+        logUserAction(userName, "Checkbox_all");
+      });
+
+//       setTimeout(() => {
+//           const checkBoxElements = document.querySelectorAll('div[data-field="__check__"]');
+//           console.log(checkBoxElements)
+//       }, 2000);
     };
     listAlerts();
   }, []);
@@ -409,17 +421,38 @@ const Team = () => {
           {/* Three buttons inside the dialog */}
           <Button 
             variant="contained"
-            onClick={() => updateDialogCity("Log")} color="primary" sx={{ mr: 2 }}>
+            onClick={() =>
+              {
+                console.log("username:" + userName);
+                console.log("UI-Component-Name:" + "Popup_Log");
+                logUserAction(userName, "Popup_Log");
+                updateDialogCity("Log");
+              }
+            } color="primary" sx={{ mr: 2 }}>
             Log
           </Button>
           <Button 
             variant="contained"
-            onClick={() => updateDialogCity("Block")} color="secondary" sx={{ mr: 2 }}>
+            onClick={() =>
+              {
+                console.log("username:" + userName);
+                console.log("UI-Component-Name:" + "Popup_Block");
+                logUserAction(userName, "Popup_Block");
+                updateDialogCity("Block");
+              }
+            } color="secondary" sx={{ mr: 2 }}>
             Block
           </Button>
           <Button 
             variant="contained"
-            onClick={() => updateDialogCity("Escalate")} color="success">
+            onClick={() =>
+              {
+                console.log("username:" + userName);
+                console.log("UI-Component-Name:" + "Popup_Escalate");
+                logUserAction(userName, "Popup_Escalate");
+                updateDialogCity("Escalate");
+              }
+            } color="success">
             Escalate
           </Button>
           {/* <Button 
