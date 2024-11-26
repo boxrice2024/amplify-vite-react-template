@@ -73,7 +73,6 @@ const SignInPage = () => {
     // get a user by user name
     const user = await getUser(username);
     if (!user) {
-      alert("No user for the name! Creating a new user...")
       await createUser(username);
       // create brand new alerts for new user
       await Promise.all(mockDataTeam.map(alert => createAlert(alert, username)));

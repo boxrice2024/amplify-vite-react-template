@@ -28,6 +28,40 @@ const getSeverityLevelValue = (severityLevel) => {
   }
 }
 
+const addClickEventToAllCheckBoxes = async(userName) => {
+  return new Promise((resolve, reject) => {
+    const intervalId = setInterval(() => {
+      console.log("checking...");
+      const checkBoxElements = document.querySelectorAll('div[data-field="__check__"][role="cell"]');
+      if (checkBoxElements && checkBoxElements.length == 17) {
+        checkBoxElements.forEach((checkBoxElement) => {
+          checkBoxElement.addEventListener('click', () => {
+            // Find the sibling element with data-field="alert_id" and role="cell"
+            const alertSibling = Array.from(checkBoxElement.parentElement.children).find(
+              (sibling) =>
+                sibling.getAttribute("data-field") === "alert_id" &&
+                sibling.getAttribute("role") === "cell"
+            );
+
+            // If the sibling exists, find its child with the class "MuiDataGrid-cellContent"
+            if (alertSibling) {
+              const contentChild = alertSibling.querySelector('.MuiDataGrid-cellContent');
+              if (contentChild) {
+                const alertIdValue = contentChild.getAttribute('title');
+                console.log("username:" + userName);
+                console.log("UI-Component-Name:" + "Checkbox_with_" + alertIdValue);
+                logUserAction(userName, "Checkbox_with_" + alertIdValue);
+              }
+            }
+          });
+        });
+        clearInterval(intervalId); // Stop checking when the element is found
+        resolve(true); // Resolve the promise when the element is found
+      }
+    }, 100); // Check every 100 milliseconds
+  });
+}
+
 const Team = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode); 
@@ -67,10 +101,10 @@ const Team = () => {
         logUserAction(userName, "Checkbox_all");
       });
 
-//       setTimeout(() => {
-//           const checkBoxElements = document.querySelectorAll('div[data-field="__check__"]');
-//           console.log(checkBoxElements)
-//       }, 2000);
+      addClickEventToAllCheckBoxes(userName)
+        .then((element) => {
+            console.log('Element found:', element);
+        });
     };
     listAlerts();
   }, []);
@@ -390,6 +424,7 @@ const Team = () => {
             setSelectionModel(newSelection);  // Track selected rows
           }}
           disableSelectionOnClick={true}
+          rowBuffer={20}
         />
       </Box>
 

@@ -114,7 +114,7 @@ const Dashboard = () => {
         <Box>
           <Button
             sx={{
-              backgroundColor: isAllAlertsComplete(alertData) ? colors.blueAccent[700] : colors.grey[400],
+              backgroundColor: isAllAlertsComplete(alertData) ? "rgb(175, 63, 59)" : colors.grey[400],
               color: colors.grey[100],
               fontSize: "14px",
               fontWeight: "bold",
