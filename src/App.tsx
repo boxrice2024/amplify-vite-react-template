@@ -27,8 +27,9 @@ function App() {
   const [isSidebar, setIsSidebar] = useState(true);
   const location = useLocation(); // Get the current route
 
+  const regex = /^\/warmup\/*$/;
   // Conditionally render sidebar and topbar only if not on SignInPage
-  const shouldShowSidebarAndTopbar = location.pathname !== "/" && location.pathname !== "/warmup";
+  const shouldShowSidebarAndTopbar = location.pathname !== "/" && !regex.test(location.pathname);
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -44,6 +45,7 @@ function App() {
               <Route path="/team" element={<Team />} />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/warmup" element={<Warmup />} />
+              <Route path="/warmup/" element={<Warmup />} />
               {/* Redirect any unknown route to sign-in */}
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
