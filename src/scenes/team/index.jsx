@@ -425,6 +425,7 @@ const Team = () => {
           }}
           disableSelectionOnClick={true}
           rowBuffer={20}
+          disableColumnMenu={true}
         />
       </Box>
 
