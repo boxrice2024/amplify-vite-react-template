@@ -299,6 +299,8 @@ const Warmup = () => {
             setSelectionModel(newSelection);  // Track selected rows
           }}
           disableSelectionOnClick={true}
+          rowBuffer={20}
+          disableColumnMenu={true}
         />
       </Box>
 
