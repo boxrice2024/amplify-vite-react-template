@@ -66,7 +66,12 @@ const SignInPage = () => {
     event.preventDefault();
 
     if (!username) {
-      alert("Please enter a username to sign in.");
+      alert("Please enter a user name to sign in.");
+      return;
+    }
+
+    if (username.trim().length === 0) {
+      alert("User name can not be blank.");
       return;
     }
 
