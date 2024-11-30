@@ -18,6 +18,7 @@ const schema = a.schema({
       isSurveyComplete: a.boolean().default(false),
       alerts: a.hasMany('Alert', 'userName'),
       actions: a.hasMany('Action', 'userName'),
+      surveyCompletionCode: a.string(),
     })
     .identifier(['userName'])
     .authorization((allow) => [allow.publicApiKey()]),

@@ -33,13 +33,6 @@ const isAllAlertsComplete = (alerts) => {
     return countNewAlerts(alerts) == 0;
 }
 
-const completeSurvey = async(userName) => {
-  await client.models.User.update({
-    userName: userName,
-    isSurveyComplete: true,
-  });
-}
-
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -48,6 +41,18 @@ const Dashboard = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [userName, setUserName] = useState([]);
   const [alertData, setAlertData] = useState([]); // Alert data
+  const [surveyCompletionCode, setSurveyCompletionCode] = useState([]);
+
+  const completeSurvey = async(userName) => {
+    const surveyCompletionCode =
+      Array.from({ length: 5 }, () => Math.floor(Math.random() * 10)).join('');
+    setSurveyCompletionCode(surveyCompletionCode);
+    await client.models.User.update({
+      userName: userName,
+      isSurveyComplete: true,
+      surveyCompletionCode: surveyCompletionCode,
+    });
+  }
 
   // Get alerts
   useEffect(() => {
@@ -92,13 +97,14 @@ const Dashboard = () => {
     logUserAction(userName, "Task_Complete");
     setDialogOpen(true);
     await completeSurvey(userName);
+    clearUserSession();
   };
 
   // Close the dialog
   const handleClose = () => {
-    setDialogOpen(false);
-    clearUserSession();
-    navigate("/signin");
+//     setDialogOpen(false);
+//     clearUserSession();
+//     navigate("/signin");
   };
 
   // const handleNavigate = () => {
@@ -335,8 +341,12 @@ const Dashboard = () => {
       </Box>
 
       {/* Dialog for completion message */}
-      <Dialog open={dialogOpen} onClose={handleClose}>
-        <DialogTitle>Thank you for completing the experiment!</DialogTitle>
+      <Dialog open={dialogOpen} onClose={handleClose} disableEscapeKeyDown>
+        <DialogTitle>
+          <p>Thank you for completing the experiment!</p>
+          <p><b>{surveyCompletionCode}</b></p>
+          <p>Please copy above code, then return to the survey and paste it to continue.</p>
+        </DialogTitle>
       </Dialog>
     </Box>
   );
