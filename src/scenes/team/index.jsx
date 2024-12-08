@@ -8,7 +8,7 @@ import { useTheme } from "@mui/material";
 import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close"; // Import the close icon
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
-import { client, logUserAction } from '../../db/client';
+import { client, logUserAction, listAllAlerts } from '../../db/client';
 import { getUserSession } from '../../session/userSession';
 
 const updateAlertStatus = async(id, status) => {
@@ -84,13 +84,7 @@ const Team = () => {
         navigate("/signin"); // Redirect to sign-in if username is not available
         return;
       }
-      const { data: alerts, errors } = await client.models.Alert.list({
-        filter: {
-          userName: {
-            eq: userName
-          }
-        }
-      });
+      const alerts = await listAllAlerts(userName);
       setUserName(userName);
       setTeamData(alerts);
 

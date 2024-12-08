@@ -22,7 +22,7 @@ import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
-import { client, logUserAction } from '../../db/client';
+import { client, logUserAction, listAllAlerts } from '../../db/client';
 import { getUserSession, clearUserSession } from '../../session/userSession';
 
 const countNewAlerts = (alerts) => {
@@ -62,13 +62,7 @@ const Dashboard = () => {
         navigate("/signin"); // Redirect to sign-in if username is not available
         return;
       }
-      const { data: alerts, errors } = await client.models.Alert.list({
-        filter: {
-          userName: {
-            eq: userName
-          }
-        }
-      });
+      const alerts = await listAllAlerts(userName);
       setUserName(userName);
       setAlertData(alerts);
     };

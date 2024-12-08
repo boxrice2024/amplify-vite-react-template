@@ -21,18 +21,6 @@ const createAlert = async(alert, userName) => {
   });
 }
 
-const listAlerts = async(userName) => {
-  const { data: alerts, errors } = await client.models.Alert.list({
-    filter: {
-      userName: {
-        eq: userName
-      }
-    }
-  });
-
-  return alerts;
-}
-
 const getUser = async(userName) => {
   const { data: user, errors } = await client.models.User.get({
     userName: userName,
