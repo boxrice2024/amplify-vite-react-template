@@ -16,6 +16,7 @@ import { getUserSession } from '../../session/userSession';
 
 const createAlert = async(alert, userName) => {
   await client.models.Alert.create({
+    id: userName + "-" + alert.alert_id,
     userName: userName,
     ...alert,
   });

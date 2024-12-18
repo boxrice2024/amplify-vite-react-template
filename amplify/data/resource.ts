@@ -24,6 +24,7 @@ const schema = a.schema({
     .authorization((allow) => [allow.publicApiKey()]),
   Alert: a
     .model({
+      id: a.string().required(),
       userName: a.string(),
       user: a.belongsTo('User', 'userName'),
       alert_id: a.integer(),
@@ -52,6 +53,7 @@ const schema = a.schema({
       IDS_IPS_Alert: a.string(),
       logSource: a.string(),
     })
+    .identifier(['id'])
     .authorization((allow) => [allow.publicApiKey()]),
   Action: a
     .model({
